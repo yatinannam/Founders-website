@@ -1,16 +1,16 @@
 /** Field type identifiers for typeform config entries. */
 export type TypeformFieldType =
-  | "text"
-  | "email"
-  | "number"
-  | "select"
-  | "multiselect"
-  | "textarea"
-  | "file_upload"
-  | "file"
-  | "team_members"
-  | "date"
-  | "url"
+  | 'text'
+  | 'email'
+  | 'number'
+  | 'select'
+  | 'multiselect'
+  | 'textarea'
+  | 'file_upload'
+  | 'file'
+  | 'team_members'
+  | 'date'
+  | 'url'
   | (string & {}); // allow arbitrary strings while keeping autocomplete
 
 /**

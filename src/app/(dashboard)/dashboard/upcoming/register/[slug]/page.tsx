@@ -1,21 +1,21 @@
-"use client";
-import { formatInTimeZone } from "date-fns-tz";
-import { Info, Lock, Radio } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
-import { useUser } from "@/stores/session";
-import { createClient } from "@/utils/supabase/client";
+'use client';
+import { formatInTimeZone } from 'date-fns-tz';
+import { Info, Lock, Radio } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { z } from 'zod';
+import { Button } from '@/components/ui/button';
+import { useUser } from '@/stores/session';
+import { createClient } from '@/utils/supabase/client';
 import {
   type eventsInsertType,
   typeformFieldSchema,
-} from "../../../../../../../schema.zod";
-import { TypeformMultiStep } from "./multistep-typeform";
+} from '../../../../../../../schema.zod';
+import { TypeformMultiStep } from './multistep-typeform';
 
 const typeformSchema = z
   .array(typeformFieldSchema)
-  .min(1, "At least one field is required");
+  .min(1, 'At least one field is required');
 
 export default function TypeformPage() {
   const params = useParams<{ slug: string }>();
@@ -35,17 +35,17 @@ export default function TypeformPage() {
 
       // Check if user is a club member (has club account)
       const { data: clubMemberData } = await supabase
-        .from("clubuseraccount")
-        .select("id, is_verified")
-        .eq("user_id", user.id)
+        .from('clubuseraccount')
+        .select('id, is_verified')
+        .eq('user_id', user.id)
         .maybeSingle();
 
       const isClubMember = clubMemberData?.is_verified === true;
 
       const { data: eventData, error: eventError } = await supabase
-        .from("events")
-        .select("*")
-        .eq("slug", params.slug)
+        .from('events')
+        .select('*')
+        .eq('slug', params.slug)
         .single();
 
       if (eventError) {
@@ -56,21 +56,21 @@ export default function TypeformPage() {
 
       // Check if event is gated and user is not a verified club member
       if (eventData.is_gated && !isClubMember) {
-        setError("gated");
+        setError('gated');
         setLoading(false);
         return;
       }
 
       // Check if user is already registered
       const { data: registrationData } = await supabase
-        .from("eventsregistrations")
-        .select("*")
-        .eq("event_id", eventData.id)
-        .eq("application_id", user.id)
+        .from('eventsregistrations')
+        .select('*')
+        .eq('event_id', eventData.id)
+        .eq('application_id', user.id)
         .maybeSingle();
 
       if (registrationData) {
-        Router.push("/dashboard/account");
+        Router.push('/dashboard/account');
         return;
       }
 
@@ -89,7 +89,7 @@ export default function TypeformPage() {
     );
 
   // Handle gated event access denied
-  if (error === "gated") {
+  if (error === 'gated') {
     return (
       <main className="h-screen w-full flex items-center justify-center">
         <div className="z-[100] max-w-[400px] rounded-lg border border-border bg-accent p-4 shadow-lg shadow-black/5">
@@ -110,7 +110,7 @@ export default function TypeformPage() {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" onClick={() => Router.push("/upcoming")}>
+                  <Button size="sm" onClick={() => Router.push('/upcoming')}>
                     Browse Other Events
                   </Button>
                 </div>
@@ -135,7 +135,7 @@ export default function TypeformPage() {
 
   // If external registration link exists, redirect to it
   if (event.external_registration_link) {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       window.location.href = event.external_registration_link;
     }
     return (
@@ -155,7 +155,7 @@ export default function TypeformPage() {
                     Redirecting to external registration...
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    If you&apos;re not redirected automatically,{" "}
+                    If you&apos;re not redirected automatically,{' '}
                     <a
                       href={event.external_registration_link}
                       className="text-primary underline"
@@ -176,7 +176,7 @@ export default function TypeformPage() {
 
   const parseResult = typeformSchema.safeParse(event?.typeform_config);
   if (!parseResult.success) {
-    console.error("Form configuration error:", parseResult.error.flatten());
+    console.error('Form configuration error:', parseResult.error.flatten());
     return (
       <main className="h-screen w-full flex items-center justify-center">
         <div className="z-[100] max-w-[400px] rounded-lg border border-border bg-accent p-4 shadow-lg shadow-black/5">
@@ -199,7 +199,7 @@ export default function TypeformPage() {
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" onClick={() => Router.push("/upcoming")}>
+                  <Button size="sm" onClick={() => Router.push('/upcoming')}>
                     Back to Events
                   </Button>
                 </div>
@@ -229,17 +229,17 @@ export default function TypeformPage() {
             <div className="flex grow items-center gap-12">
               <div className="space-y-1">
                 <p className="text-sm font-medium">
-                  Live at{" "}
+                  Live at{' '}
                   {Math.ceil(
-                    (publishDate.getTime() - now.getTime()) / (1000 * 60 * 60),
-                  )}{" "}
+                    (publishDate.getTime() - now.getTime()) / (1000 * 60 * 60)
+                  )}{' '}
                   hours
                 </p>
                 <p className="text-xs text-muted-foreground">
                   {formatInTimeZone(
                     publishDate,
-                    "Asia/Kolkata",
-                    "dd MMMM yyyy, hh:mm a zzz",
+                    'Asia/Kolkata',
+                    'dd MMMM yyyy, hh:mm a zzz'
                   )}
                   .
                 </p>
@@ -275,13 +275,13 @@ export default function TypeformPage() {
                   <p className="text-sm text-muted-foreground">
                     {formatInTimeZone(
                       endDate,
-                      "Asia/Kolkata",
-                      "dd MMMM yyyy, hh:mm a zzz",
+                      'Asia/Kolkata',
+                      'dd MMMM yyyy, hh:mm a zzz'
                     )}
                   </p>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" onClick={() => Router.push("/upcoming")}>
+                  <Button size="sm" onClick={() => Router.push('/upcoming')}>
                     Check out More events
                   </Button>
                 </div>

@@ -61,20 +61,29 @@ export async function updateEvent(
   if (eventData.description) updatePayload.description = eventData.description;
   if (eventData.start_date) updatePayload.start_date = eventData.start_date;
   if (eventData.end_date) updatePayload.end_date = eventData.end_date;
-  if (eventData.publish_date) updatePayload.publish_date = eventData.publish_date;
+  if (eventData.publish_date)
+    updatePayload.publish_date = eventData.publish_date;
   if (eventData.venue) updatePayload.venue = eventData.venue;
-  if (eventData.banner_image) updatePayload.banner_image = eventData.banner_image;
+  if (eventData.banner_image)
+    updatePayload.banner_image = eventData.banner_image;
   if (eventData.tags) updatePayload.tags = eventData.tags;
   if (eventData.event_type) updatePayload.event_type = eventData.event_type;
-  if (eventData.is_featured !== undefined) updatePayload.is_featured = eventData.is_featured;
-  if (eventData.is_gated !== undefined) updatePayload.is_gated = eventData.is_gated;
-  if (eventData.always_approve !== undefined) updatePayload.always_approve = eventData.always_approve;
+  if (eventData.is_featured !== undefined)
+    updatePayload.is_featured = eventData.is_featured;
+  if (eventData.is_gated !== undefined)
+    updatePayload.is_gated = eventData.is_gated;
+  if (eventData.always_approve !== undefined)
+    updatePayload.always_approve = eventData.always_approve;
   if (eventData.more_info) updatePayload.more_info = eventData.more_info;
-  if (eventData.more_info_text !== undefined) updatePayload.more_info_text = eventData.more_info_text;
-  if (eventData.external_registration_link !== undefined) updatePayload.external_registration_link = eventData.external_registration_link;
+  if (eventData.more_info_text !== undefined)
+    updatePayload.more_info_text = eventData.more_info_text;
+  if (eventData.external_registration_link !== undefined)
+    updatePayload.external_registration_link =
+      eventData.external_registration_link;
   if (eventData.rules) updatePayload.rules = eventData.rules;
   if (eventData.slug) updatePayload.slug = eventData.slug;
-  if (eventData.typeform_config) updatePayload.typeform_config = eventData.typeform_config;
+  if (eventData.typeform_config)
+    updatePayload.typeform_config = eventData.typeform_config;
 
   // Validate that at least one field is being updated
   if (Object.keys(updatePayload).length === 0) {
@@ -87,7 +96,7 @@ export async function updateEvent(
     .eq('id', eventId)
     .select()
     .single();
-    
+
   if (error) {
     throw new Error(error.message);
   }

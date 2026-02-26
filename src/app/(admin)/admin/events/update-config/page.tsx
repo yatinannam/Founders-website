@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { updateEvent } from "@/actions/typeform-upload";
-import { Button } from "@/components/ui/button";
+import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
+import { useState } from 'react';
+import { updateEvent } from '@/actions/typeform-upload';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircle, Loader2, CheckCircle2 } from "lucide-react";
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 export default function UpdateEventConfig() {
-  const [eventId, setEventId] = useState("");
-  const [typeformConfig, setTypeformConfig] = useState("");
+  const [eventId, setEventId] = useState('');
+  const [typeformConfig, setTypeformConfig] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const { toast } = useToast();
@@ -27,9 +27,9 @@ export default function UpdateEventConfig() {
   const handleUpdateConfig = async () => {
     if (!eventId || !typeformConfig) {
       toast({
-        variant: "destructive",
-        title: "Missing Information",
-        description: "Please provide both Event ID and Typeform Config JSON",
+        variant: 'destructive',
+        title: 'Missing Information',
+        description: 'Please provide both Event ID and Typeform Config JSON',
       });
       return;
     }
@@ -45,18 +45,18 @@ export default function UpdateEventConfig() {
 
       setSuccess(true);
       toast({
-        title: "Success!",
-        description: "Event typeform_config has been updated successfully.",
+        title: 'Success!',
+        description: 'Event typeform_config has been updated successfully.',
       });
     } catch (error) {
-      console.error("Error updating event:", error);
+      console.error('Error updating event:', error);
       toast({
-        variant: "destructive",
-        title: "Error",
+        variant: 'destructive',
+        title: 'Error',
         description:
           error instanceof Error
             ? error.message
-            : "Failed to update event config. Please check your JSON format.",
+            : 'Failed to update event config. Please check your JSON format.',
       });
     } finally {
       setIsLoading(false);
@@ -91,7 +91,7 @@ export default function UpdateEventConfig() {
                 id="eventId"
                 placeholder="Enter the event UUID"
                 value={eventId}
-                onChange={(e) => setEventId(e.target.value)}
+                onChange={e => setEventId(e.target.value)}
               />
               <p className="text-sm text-muted-foreground">
                 Find the event ID from the admin events table or database
@@ -104,7 +104,7 @@ export default function UpdateEventConfig() {
                 id="typeformConfig"
                 placeholder='[{"id": "field1", "label": "Full Name", "type": "text", ...}, ...]'
                 value={typeformConfig}
-                onChange={(e) => setTypeformConfig(e.target.value)}
+                onChange={e => setTypeformConfig(e.target.value)}
                 rows={20}
                 className="font-mono text-sm"
               />
@@ -120,13 +120,13 @@ export default function UpdateEventConfig() {
               <AlertDescription>
                 <ul className="list-disc list-inside space-y-1 mt-2">
                   <li>
-                    Each field should have an{" "}
+                    Each field should have an{' '}
                     <code className="bg-muted px-1 rounded">id</code> (unique
                     identifier)
                   </li>
                   <li>
-                    Each field should have a{" "}
-                    <code className="bg-muted px-1 rounded">label</code>{" "}
+                    Each field should have a{' '}
+                    <code className="bg-muted px-1 rounded">label</code>{' '}
                     (display name)
                   </li>
                   <li>The JSON must be a valid array of field objects</li>
@@ -149,7 +149,7 @@ export default function UpdateEventConfig() {
                   Updating...
                 </>
               ) : (
-                "Update Config"
+                'Update Config'
               )}
             </Button>
           </div>
